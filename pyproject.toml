@@ -1,0 +1,142 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+packages = ["app"]
+
+[project]
+name = "whisperx-cloud-run"
+version = "1.0.0"
+description = "WhisperX Cloud Run Microservice for advanced audio transcription and speaker diarization"
+authors = [
+    {name = "Alaka Oluwaseyi", email = "alakaoluwaseyi@gmail.com"}
+]
+readme = "README.md"
+requires-python = ">=3.11"
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Multimedia :: Sound/Audio :: Speech",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+dependencies = [
+    "fastapi>=0.104.1",
+    "uvicorn[standard]>=0.24.0",
+    "pydantic>=2.5.0",
+    "pydantic-settings>=2.1.0",
+    "whisperx>=3.1.1",
+    "torch>=2.1.1",
+    "torchaudio>=2.1.1",
+    "librosa>=0.10.1",
+    "soundfile>=0.12.1",
+    "pydub>=0.25.1",
+    "google-cloud-storage>=2.10.0",
+    "google-cloud-firestore>=2.13.1",
+    "google-cloud-pubsub>=2.18.4",
+    "google-cloud-logging>=3.8.0",
+    "google-cloud-monitoring>=2.16.1",
+    "google-auth>=2.23.4",
+    "httpx>=0.25.2",
+    "aiofiles>=23.2.1",
+    "python-multipart>=0.0.6",
+    "structlog>=23.2.0",
+    "psutil>=5.9.6",
+    "python-dotenv>=1.0.0",
+    "tenacity>=8.2.3",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.4.3",
+    "pytest-asyncio>=0.21.1",
+    "pytest-cov>=4.1.0",
+    "black>=23.11.0",
+    "isort>=5.12.0",
+    "flake8>=6.1.0",
+    "mypy>=1.7.1",
+]
+gpu = [
+    "cupy-cuda11x>=12.2.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/dunmininu/whisperx-cloud-run"
+Repository = "https://github.com/dunmininu/whisperx-cloud-run"
+Documentation = "https://github.com/dunmininu/whisperx-cloud-run#readme"
+Issues = "https://github.com/dunmininu/whisperx-cloud-run/issues"
+
+[tool.black]
+line-length = 88
+target-version = ['py311']
+include = '\.pyi?$'
+extend-exclude = '''
+/(
+  # directories
+  \.eggs
+  | \.git
+  | \.hg
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | build
+  | dist
+)/
+'''
+
+[tool.isort]
+profile = "black"
+multi_line_output = 3
+line_length = 88
+known_first_party = ["app"]
+
+[tool.mypy]
+python_version = "3.11"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+check_untyped_defs = true
+disallow_untyped_decorators = true
+no_implicit_optional = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+warn_no_return = true
+warn_unreachable = true
+strict_equality = true
+
+[[tool.mypy.overrides]]
+module = [
+    "torch.*",
+    "torchaudio.*",
+    "whisperx.*",
+    "librosa.*",
+    "soundfile.*",
+    "pydub.*",
+    "google.*",
+    "psutil.*",
+]
+ignore_missing_imports = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py", "*_test.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = [
+    "--strict-markers",
+    "--strict-config",
+    "--cov=app",
+    "--cov-report=term-missing",
+    "--cov-report=html",
+    "--cov-report=xml",
+]
+markers = [
+    "slow: marks tests as slow (deselect with '-m \"not slow\"')",
+    "integration: marks tests as integration tests",
+    "unit: marks tests as unit tests",
+] 

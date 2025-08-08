@@ -1,0 +1,51 @@
+version: '3.8'
+
+services:
+  whisperx-service:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      - GOOGLE_CLOUD_PROJECT=local-dev
+      - MODEL_SIZE=base
+      - MAX_AUDIO_DURATION=300
+      - ENABLE_GPU=false
+      - LOG_LEVEL=DEBUG
+    volumes:
+      - ./uploads:/app/uploads
+      - ./temp:/app/temp
+      - ./models:/app/models
+    depends_on:
+      - redis
+    networks:
+      - whisperx-network
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - whisperx-network
+
+  # Optional: Add a simple test client
+  test-client:
+    build:
+      context: .
+      dockerfile: Dockerfile.test
+    ports:
+      - "3000:3000"
+    environment:
+      - API_BASE_URL=http://whisperx-service:8000
+    depends_on:
+      - whisperx-service
+    networks:
+      - whisperx-network
+
+volumes:
+  redis_data:
+
+networks:
+  whisperx-network:
+    driver: bridge 
