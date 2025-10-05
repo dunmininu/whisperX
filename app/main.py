@@ -38,8 +38,8 @@ async def lifespan(app: FastAPI):
     try:
         # Initialize WhisperX service (use mock in development)
         if settings.DEBUG:
-            service = WhisperXService()
-            # service = MockWhisperXService()
+            # service = WhisperXService()
+            service = MockWhisperXService()
             logger.info("Using Mock WhisperX service for development")
         else:
             service = WhisperXService()
