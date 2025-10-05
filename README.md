@@ -253,4 +253,4 @@ For issues and questions:
 
 **🎯 Ready for Production Deployment!**
 
-Your WhisperX Cloud Run Microservice is fully configured and ready for production deployment. Follow the [Production Deployment Guide](docs/PRODUCTION_DEPLOYMENT.md) to get started. 
+WhisperX Cloud Run Microservice is fully configured and ready for production deployment. Follow the [Production Deployment Guide](docs/PRODUCTION_DEPLOYMENT.md) to get started. 

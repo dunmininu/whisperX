@@ -258,8 +258,8 @@ Thumbs.db
 # Project specific
 uploads/
 temp/
-models/
-*.model
+# models/
+# *.model
 *.pkl
 *.pickle
 *.joblib
